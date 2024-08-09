@@ -1,0 +1,6 @@
+.idea
+.vscode
+
+# test report
+cover.out
+coverage.html
