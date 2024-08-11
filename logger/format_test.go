@@ -15,8 +15,8 @@ func TestFormatSuite(t *testing.T) {
 }
 
 func (suite *FormatSuite) TestFormatConst() {
-	suite.Equal(Format(0), Json)
-	suite.Equal(Format(1), Text)
+	suite.Equal(Format(0), FormatJson)
+	suite.Equal(Format(1), FormatText)
 }
 
 func (suite *FormatSuite) TestFormatString() {
@@ -25,11 +25,11 @@ func (suite *FormatSuite) TestFormatString() {
 		expected string
 	}{
 		{
-			format:   Format(Text),
+			format:   Format(FormatText),
 			expected: "text",
 		},
 		{
-			format:   Format(Json),
+			format:   Format(FormatJson),
 			expected: `json`,
 		},
 	}

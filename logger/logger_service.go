@@ -23,7 +23,7 @@ func NewLoggerService(output io.Writer, format Format, level Level, args ...any)
 		logger = slog.New(slog.NewJSONHandler(output, opts))
 	}
 
-	return loggerService{
+	return &loggerService{
 		logger: logger.With(args...),
 	}
 }
@@ -32,22 +32,22 @@ type loggerService struct {
 	logger *slog.Logger
 }
 
-func (s loggerService) Debug(text string, args ...any) {
+func (s *loggerService) Debug(text string, args ...any) {
 	s.logger.Debug(text, args...)
 }
 
-func (s loggerService) Info(text string, args ...any) {
+func (s *loggerService) Info(text string, args ...any) {
 	s.logger.Info(text, args...)
 }
 
-func (s loggerService) Warn(text string, args ...any) {
+func (s *loggerService) Warn(text string, args ...any) {
 	s.logger.Warn(text, args...)
 }
 
-func (s loggerService) Error(text string, args ...any) {
+func (s *loggerService) Error(text string, args ...any) {
 	s.logger.Error(text, args...)
 }
 
-func (s loggerService) IsActive(level Level) bool {
+func (s *loggerService) IsActive(level Level) bool {
 	return s.logger.Enabled(context.Background(), level.Slog())
 }

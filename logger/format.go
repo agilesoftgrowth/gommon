@@ -1,15 +1,15 @@
 package logger
 
 const (
-	Json Format = iota
-	Text
+	FormatJson Format = iota
+	FormatText
 )
 
 type Format int
 
 func (f Format) String() string {
 	switch f {
-	case Json:
+	case FormatJson:
 		return "json"
 	default:
 		return "text"

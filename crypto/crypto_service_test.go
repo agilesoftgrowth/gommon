@@ -2,10 +2,10 @@ package crypto
 
 import (
 	"io"
-	"log/slog"
 	"regexp"
 	"testing"
 
+	"github.com/agilesoftgrowth/gommon/logger"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -58,6 +58,6 @@ func (suite *CryptoServiceSuite) TestDecryptTextNotBase64Encoded() {
 	suite.ErrorContains(err, "text is not base64 encoded")
 }
 
-func (suite *CryptoServiceSuite) getLogger() *slog.Logger {
-	return slog.New(slog.NewTextHandler(io.Discard, nil))
+func (suite *CryptoServiceSuite) getLogger() logger.LoggerService {
+	return logger.NewLoggerService(io.Discard, logger.FormatText, logger.LevelInfo)
 }

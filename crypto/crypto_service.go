@@ -7,7 +7,8 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"log/slog"
+
+	"github.com/agilesoftgrowth/gommon/logger"
 )
 
 type CryptoService interface {
@@ -17,19 +18,19 @@ type CryptoService interface {
 	decode(text string) ([]byte, error)
 }
 
-func NewCryptoService(logger *slog.Logger, cipherKey string) CryptoService {
-	return cryptoService{
+func NewCryptoService(logger logger.LoggerService, cipherKey string) CryptoService {
+	return &cryptoService{
 		logger:    logger,
 		cipherKey: cipherKey,
 	}
 }
 
 type cryptoService struct {
-	logger    *slog.Logger
+	logger    logger.LoggerService
 	cipherKey string
 }
 
-func (s cryptoService) Encrypt(text string) (string, error) {
+func (s *cryptoService) Encrypt(text string) (string, error) {
 	block, err := aes.NewCipher([]byte(s.cipherKey))
 	if err != nil {
 		s.logger.Error("Cannot create aes block cipher", "error", err.Error())
@@ -46,7 +47,7 @@ func (s cryptoService) Encrypt(text string) (string, error) {
 	return s.encode(append(iv, ciphertext...)), nil
 }
 
-func (s cryptoService) Decrypt(text string) (string, error) {
+func (s *cryptoService) Decrypt(text string) (string, error) {
 	block, err := aes.NewCipher([]byte(s.cipherKey))
 	if err != nil {
 		s.logger.Error("Cannot create aes block cipher", "error", err.Error())
@@ -66,11 +67,11 @@ func (s cryptoService) Decrypt(text string) (string, error) {
 	return string(plaintext), nil
 }
 
-func (s cryptoService) encode(b []byte) string {
+func (s *cryptoService) encode(b []byte) string {
 	return base64.StdEncoding.EncodeToString(b)
 }
 
-func (s cryptoService) decode(text string) ([]byte, error) {
+func (s *cryptoService) decode(text string) ([]byte, error) {
 	data, err := base64.StdEncoding.DecodeString(text)
 	if err != nil {
 		return nil, err

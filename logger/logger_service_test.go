@@ -23,11 +23,11 @@ func (suite *LoggerServiceSuite) TestNewLoggerServiceFormat() {
 		expected string
 	}{
 		{
-			format:   Format(Text),
+			format:   Format(FormatText),
 			expected: "time=.* level=INFO msg=foobar",
 		},
 		{
-			format:   Format(Json),
+			format:   Format(FormatJson),
 			expected: `{"time":".*","level":"INFO","msg":"foobar"}`,
 		},
 	}
@@ -52,7 +52,7 @@ func (suite *LoggerServiceSuite) TestNewLoggerServiceLevel() {
 	}
 
 	for _, test := range tests {
-		logger := NewLoggerService(io.Discard, Text, test.level)
+		logger := NewLoggerService(io.Discard, FormatText, test.level)
 		suite.True(logger.IsActive(test.level))
 	}
 }
@@ -82,7 +82,7 @@ func (suite *LoggerServiceSuite) TestLoggerMethod() {
 
 	for _, test := range tests {
 		buf := new(strings.Builder)
-		logger := NewLoggerService(buf, Text, LevelDebug)
+		logger := NewLoggerService(buf, FormatText, LevelDebug)
 		method := reflect.ValueOf(logger).MethodByName(test.methodName)
 		method.Call([]reflect.Value{reflect.ValueOf("foobar")})
 
