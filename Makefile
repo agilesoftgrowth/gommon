@@ -1,5 +1,5 @@
 NAME ?= gommon
-VERSION ?= 0.3.0
+VERSION ?= 0.4.0
 
 .PHONY: version tests
 
