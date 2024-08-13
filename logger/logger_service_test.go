@@ -22,22 +22,22 @@ func TestLoggerServiceSuite(t *testing.T) {
 
 func (suite *LoggerServiceSuite) TestNewLoggerServiceFormat() {
 	tests := []struct {
-		format   Format
+		format   LoggerFormat
 		expected string
 	}{
 		{
-			format:   Format(FormatText),
+			format:   LoggerFormat(FormatText),
 			expected: "time=.* level=INFO msg=foobar",
 		},
 		{
-			format:   Format(FormatJson),
+			format:   LoggerFormat(FormatJson),
 			expected: `{"time":".*","level":"INFO","msg":"foobar"}`,
 		},
 	}
 
 	for _, test := range tests {
 		buf := new(strings.Builder)
-		logger := NewLoggerService(buf, test.format, Level(LevelInfo))
+		logger := NewLoggerService(buf, test.format, LoggerLevel(LevelInfo))
 		logger.Info("foobar")
 
 		suite.Regexp(test.expected, buf.String())
@@ -46,7 +46,7 @@ func (suite *LoggerServiceSuite) TestNewLoggerServiceFormat() {
 
 func (suite *LoggerServiceSuite) TestNewLoggerServiceLevel() {
 	tests := []struct {
-		level Level
+		level LoggerLevel
 	}{
 		{level: LevelDebug},
 		{level: LevelInfo},

@@ -1,17 +1,20 @@
 package logger
 
-import "log/slog"
+import (
+	"log/slog"
+	"strings"
+)
 
 const (
-	LevelDebug Level = iota
+	LevelDebug LoggerLevel = iota
 	LevelInfo
 	LevelWarn
 	LevelError
 )
 
-type Level int
+type LoggerLevel int
 
-func (l Level) String() string {
+func (l LoggerLevel) String() string {
 	switch l {
 	case LevelDebug:
 		return "debug"
@@ -24,7 +27,7 @@ func (l Level) String() string {
 	}
 }
 
-func (l Level) Slog() slog.Level {
+func (l LoggerLevel) Slog() slog.Level {
 	switch l {
 	case LevelDebug:
 		return slog.LevelDebug
@@ -34,5 +37,18 @@ func (l Level) Slog() slog.Level {
 		return slog.LevelError
 	default:
 		return slog.LevelInfo
+	}
+}
+
+func Level(s string) LoggerLevel {
+	switch strings.ToLower(s) {
+	case "debug":
+		return LevelDebug
+	case "warn":
+		return LevelWarn
+	case "error":
+		return LevelError
+	default:
+		return LevelInfo
 	}
 }

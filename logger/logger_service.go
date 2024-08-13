@@ -16,10 +16,10 @@ type LoggerService interface {
 	Warn(text string, args ...any)
 	Error(text string, args ...any)
 
-	IsActive(level Level) bool
+	IsActive(level LoggerLevel) bool
 }
 
-func NewLoggerService(output io.Writer, format Format, level Level, args ...any) LoggerService {
+func NewLoggerService(output io.Writer, format LoggerFormat, level LoggerLevel, args ...any) LoggerService {
 	opts := &slog.HandlerOptions{Level: level.Slog()}
 	logger := slog.New(slog.NewTextHandler(output, opts))
 
@@ -52,7 +52,7 @@ func (s *loggerService) Error(text string, args ...any) {
 	s.logger.Error(text, args...)
 }
 
-func (s *loggerService) IsActive(level Level) bool {
+func (s *loggerService) IsActive(level LoggerLevel) bool {
 	return s.logger.Enabled(context.Background(), level.Slog())
 }
 
