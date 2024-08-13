@@ -1,20 +1,21 @@
 package logger
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type FxeventSuite struct {
+type FxSuite struct {
 	suite.Suite
 }
 
-func TestFxeventSuite(t *testing.T) {
-	suite.Run(t, new(FxeventSuite))
+func TestFxSuite(t *testing.T) {
+	suite.Run(t, new(FxSuite))
 }
 
-func (suite *FxeventSuite) TestConst() {
+func (suite *FxSuite) TestConst() {
 	suite.Equal("Decorated", FXEVENT_DECORATED)
 	suite.Equal("Invoked", FXEVENT_INVOKED)
 	suite.Equal("Invoking", FXEVENT_INVOKING)
@@ -32,4 +33,18 @@ func (suite *FxeventSuite) TestConst() {
 	suite.Equal("Stopped", FXEVENT_STOPPED)
 	suite.Equal("Stopping", FXEVENT_STOPPING)
 	suite.Equal("Supplied", FXEVENT_SUPPLIED)
+}
+
+func (suite *FxSuite) TestNewLogger() {
+	logger, err := NewLogger(LoggerParams{
+		Output: os.Stdout,
+		Format: FormatText,
+		Level:  LevelInfo,
+	})
+	expected := LoggerResult{
+		Logger: NewLoggerService(os.Stdout, FormatText, LevelInfo),
+	}
+
+	suite.Nil(err)
+	suite.Equal(expected, logger)
 }

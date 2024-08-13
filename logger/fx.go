@@ -1,5 +1,11 @@
 package logger
 
+import (
+	"io"
+
+	"go.uber.org/fx"
+)
+
 const (
 	FXEVENT_DECORATED          = "Decorated"
 	FXEVENT_INVOKED            = "Invoked"
@@ -19,3 +25,19 @@ const (
 	FXEVENT_STOPPING           = "Stopping"
 	FXEVENT_SUPPLIED           = "Supplied"
 )
+
+type LoggerParams struct {
+	Output io.Writer
+	Format LoggerFormat
+	Level  LoggerLevel
+}
+
+type LoggerResult struct {
+	fx.Out
+	Logger LoggerService
+}
+
+func NewLogger(params LoggerParams) (LoggerResult, error) {
+	logger := NewLoggerService(params.Output, params.Format, params.Level)
+	return LoggerResult{Logger: logger}, nil
+}
