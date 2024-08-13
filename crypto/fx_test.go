@@ -16,13 +16,13 @@ func TestFxSuite(t *testing.T) {
 	suite.Run(t, new(FxSuite))
 }
 
-func (suite *FxSuite) TestNewCrypto() {
+func (suite *FxSuite) TestNew() {
 	logger := logger.NewLoggerService(os.Stdout, logger.FormatText, logger.LevelInfo)
-	cryptoService, err := NewCrypto(CryptoServiceParams{
+	cryptoService, err := New(Params{
 		Logger: logger,
 		Key:    "123456789",
 	})
-	expected := CryptoServiceResult{
+	expected := Result{
 		CryptoService: NewCryptoService(logger, "123456789"),
 	}
 

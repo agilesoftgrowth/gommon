@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type DBParams struct {
+type Params struct {
 	Logger          logger.LoggerService
 	Vendor          DBVendor
 	DBName          string
@@ -21,12 +21,12 @@ type DBParams struct {
 	Models          []any
 }
 
-type DBResult struct {
+type Result struct {
 	fx.Out
 	DB *gorm.DB
 }
 
-func NewDB(params DBParams) (DBResult, error) {
+func NewDB(params Params) (Result, error) {
 	db, err := NewDbConnection(
 		params.Logger,
 		params.Vendor,
@@ -41,5 +41,5 @@ func NewDB(params DBParams) (DBResult, error) {
 		params.RunMigrations,
 		params.Models...,
 	)
-	return DBResult{DB: db}, err
+	return Result{DB: db}, err
 }

@@ -14,9 +14,9 @@ func TestFxSuite(t *testing.T) {
 	suite.Run(t, new(FxSuite))
 }
 
-func (suite *FxSuite) TestNewEnv() {
-	logger, err := NewEnv()
-	expected := EnvResult{
+func (suite *FxSuite) TestNew() {
+	logger, err := New()
+	expected := Result{
 		EnvService: NewEnvService(),
 	}
 

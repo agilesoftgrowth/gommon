@@ -26,18 +26,18 @@ const (
 	FXEVENT_SUPPLIED           = "Supplied"
 )
 
-type LoggerParams struct {
+type Params struct {
 	Output io.Writer
 	Format LoggerFormat
 	Level  LoggerLevel
 }
 
-type LoggerResult struct {
+type Result struct {
 	fx.Out
 	Logger LoggerService
 }
 
-func NewLogger(params LoggerParams) (LoggerResult, error) {
+func New(params Params) (Result, error) {
 	logger := NewLoggerService(params.Output, params.Format, params.Level)
-	return LoggerResult{Logger: logger}, nil
+	return Result{Logger: logger}, nil
 }

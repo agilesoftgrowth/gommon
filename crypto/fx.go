@@ -5,17 +5,17 @@ import (
 	"go.uber.org/fx"
 )
 
-type CryptoServiceParams struct {
+type Params struct {
 	Logger logger.LoggerService
 	Key    string
 }
 
-type CryptoServiceResult struct {
+type Result struct {
 	fx.Out
 	CryptoService CryptoService
 }
 
-func NewCrypto(params CryptoServiceParams) (CryptoServiceResult, error) {
+func New(params Params) (Result, error) {
 	cryptoService := NewCryptoService(params.Logger, params.Key)
-	return CryptoServiceResult{CryptoService: cryptoService}, nil
+	return Result{CryptoService: cryptoService}, nil
 }

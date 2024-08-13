@@ -35,13 +35,13 @@ func (suite *FxSuite) TestConst() {
 	suite.Equal("Supplied", FXEVENT_SUPPLIED)
 }
 
-func (suite *FxSuite) TestNewLogger() {
-	logger, err := NewLogger(LoggerParams{
+func (suite *FxSuite) TestNew() {
+	logger, err := New(Params{
 		Output: os.Stdout,
 		Format: FormatText,
 		Level:  LevelInfo,
 	})
-	expected := LoggerResult{
+	expected := Result{
 		Logger: NewLoggerService(os.Stdout, FormatText, LevelInfo),
 	}
 

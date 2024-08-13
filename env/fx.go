@@ -2,12 +2,12 @@ package env
 
 import "go.uber.org/fx"
 
-type EnvResult struct {
+type Result struct {
 	fx.Out
 	EnvService EnvService
 }
 
-func NewEnv() (EnvResult, error) {
+func New() (Result, error) {
 	envSerivce := NewEnvService()
-	return EnvResult{EnvService: envSerivce}, nil
+	return Result{EnvService: envSerivce}, nil
 }
