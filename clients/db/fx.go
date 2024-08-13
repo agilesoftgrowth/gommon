@@ -26,7 +26,7 @@ type Result struct {
 	DB *gorm.DB
 }
 
-func NewDB(params Params) (Result, error) {
+func New(params Params) (Result, error) {
 	db, err := NewDbConnection(
 		params.Logger,
 		params.Vendor,
