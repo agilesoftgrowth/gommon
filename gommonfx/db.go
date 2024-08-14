@@ -19,7 +19,7 @@ type DBParams struct {
 	MaxIdleConns    int
 	MaxConnLifetime int
 	RunMigrations   bool
-	Models          []any
+	Models          []gorm.Model
 }
 
 type DBResult struct {
