@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewDbConnection(
+func NewDatabase(
 	logger logger.LoggerService,
 	vendor DBVendor,
 	name string,

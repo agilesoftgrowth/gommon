@@ -1,14 +1,15 @@
-package db
+package gommonfx
 
 import (
+	"github.com/agilesoftgrowth/gommon/clients/db"
 	"github.com/agilesoftgrowth/gommon/logger"
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 )
 
-type Params struct {
+type DBParams struct {
 	Logger          logger.LoggerService
-	Vendor          DBVendor
+	Vendor          db.DBVendor
 	DBName          string
 	Host            string
 	Port            string
@@ -21,13 +22,13 @@ type Params struct {
 	Models          []any
 }
 
-type Result struct {
+type DBResult struct {
 	fx.Out
 	DB *gorm.DB
 }
 
-func New(params Params) (Result, error) {
-	db, err := NewDbConnection(
+func NewDatabase(params DBParams) (DBResult, error) {
+	db, err := db.NewDatabase(
 		params.Logger,
 		params.Vendor,
 		params.DBName,
@@ -41,5 +42,5 @@ func New(params Params) (Result, error) {
 		params.RunMigrations,
 		params.Models...,
 	)
-	return Result{DB: db}, err
+	return DBResult{DB: db}, err
 }
