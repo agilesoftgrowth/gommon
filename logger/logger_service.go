@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"io"
 	"log/slog"
+	"os"
 
+	"github.com/wagslane/go-rabbitmq"
 	"go.uber.org/fx/fxevent"
 )
 
@@ -31,6 +33,8 @@ const (
 
 type LoggerService interface {
 	fxevent.Logger
+	rabbitmq.Logger
+
 	Debug(text string, args ...any)
 	Info(text string, args ...any)
 	Warn(text string, args ...any)
@@ -75,6 +79,8 @@ func (s *loggerService) Error(text string, args ...any) {
 func (s *loggerService) IsActive(level LoggerLevel) bool {
 	return s.logger.Enabled(context.Background(), level.Slog())
 }
+
+// fxevent.Logger interface methods
 
 func (s *loggerService) LogEvent(e fxevent.Event) {
 	var eventType string
@@ -130,3 +136,30 @@ func (s *loggerService) LogEvent(e fxevent.Event) {
 		s.logger.Debug(message, "fxevent", eventType)
 	}
 }
+
+// end of fxevent.Logger interface methods
+
+// rabbitmq.Logger interface methods
+
+func (s *loggerService) Debugf(text string, args ...interface{}) {
+	s.Debug(text, args)
+}
+
+func (s *loggerService) Errorf(text string, args ...interface{}) {
+	s.Error(text, args)
+}
+
+func (s *loggerService) Fatalf(text string, args ...interface{}) {
+	s.Error(text, args)
+	os.Exit(1)
+}
+
+func (s *loggerService) Infof(text string, args ...interface{}) {
+	s.Info(text, args)
+}
+
+func (s *loggerService) Warnf(text string, args ...interface{}) {
+	s.Warn(text, args)
+}
+
+// end of rabbitmq.Logger interface methods
